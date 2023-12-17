@@ -1,0 +1,14 @@
+.imgCart {
+    height: 30px;
+    position: fixed; 
+    right: 160px;
+    top: 30px
+}
+
+.contCart {
+height: 30px; 
+position: fixed; 
+right: 150px;
+top: 32px;
+color: #0076fc
+}

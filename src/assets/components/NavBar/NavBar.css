@@ -1,0 +1,16 @@
+.navBar {
+    position: fixed;
+     top: 0; 
+     left: 0; 
+     width: 100%
+}
+.mr-auto {
+    position: relative;
+    left: 20px;
+    font-size: 18px;
+}
+
+.mr-auto button {
+    position: fixed;
+     right: 10px 
+}
