@@ -1,7 +1,11 @@
-const ItemListContainer = ({saludo}) => {
+import ObtenerProductos from '../ObtenerProductos/ObtenerProductos'
+
+
+const ItemListContainer = () => {
+
     return (
         <div>
-            <h1>{saludo}</h1>
+            <ObtenerProductos/>
         </div>
     )
 }

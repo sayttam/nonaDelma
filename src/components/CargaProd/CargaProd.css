@@ -1,0 +1,24 @@
+.cargaProductos h1 {
+    font-size: 20px;
+    color: #25A5A5;
+}
+
+.cargaProductos button {
+    margin: 20px 0;
+}
+
+.cargaProductos input {
+    border-radius: 10px;
+    text-align: center;
+}
+
+.cargaProductos form {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.listaProductos {
+    border: 1px lightgray solid;
+}
+
