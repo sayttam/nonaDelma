@@ -8,14 +8,26 @@ const ObtenerProductos = () => {
   const [productos, setProductos] = useState([])
 
   useEffect(() => {
-    try {
+    const obtenerProd = async () => {
+      try {
+        const datos = await obtenerDatosDeLaAPI()
+        setProductos(datos)
+      } catch (error) {
+        setError(error.message || "Hubo un error al obtener los datos.")
+      }
+    }
+
+    obtenerProd()
+  }, [])
+
+  const obtenerDatosDeLaAPI = () => {
+    return new Promise((resolve, reject) => {
       fetch("https://api.mercadolibre.com/sites/MLA/search?q=lanas")
         .then((response) => response.json())
-        .then((json) => setProductos(json.results))
-    } catch (error) {
-      console.error(error)
-    }
-  }, [])
+        .then((json) => resolve(json.results))
+        .catch((error) => reject(error))
+    })
+  }
 
   if (productos.length === 0) {
     return <p>Cargando...</p>
@@ -49,7 +61,7 @@ const ObtenerProductos = () => {
         ))}
       </Row>
     </>
-  );
-};
+  )
+}
 
 export default ObtenerProductos

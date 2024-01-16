@@ -1,17 +1,17 @@
-import { useState, useRef } from "react";
-import './CargaProd.css';
+import { useState, useRef } from "react"
+import './CargaProd.css'
 
 const CargaProd = () => {
-  const [productos, setProductos] = useState([]);
+  const [productos, setProductos] = useState([])
   const [nuevoProd, setNuevoProd] = useState({
     id: 0,
     nombre: "",
     descripcion: "",
     precio: "",
     stock: "",
-  });
+  })
 
-  const [idContador, setIdContador] = useState(1);
+  const [idContador, setIdContador] = useState(1)
 
   const resetNuevoProd = () => {
     setNuevoProd({
@@ -20,29 +20,29 @@ const CargaProd = () => {
       descripcion: "",
       precio: "",
       stock: "",
-    });
-  };
+    })
+  }
 
   const cargaProductos = (e) => {
-    const { name, value } = e.target;
-    setNuevoProd((prevNuevoProd) => ({ ...prevNuevoProd, [name]: value }));
-  };
+    const { name, value } = e.target
+    setNuevoProd((prevNuevoProd) => ({ ...prevNuevoProd, [name]: value }))
+  }
 
   const agregarProducto = () => {
     const existingProductIndex = productos.findIndex(
       (producto) => producto.nombre === nuevoProd.nombre
-    );
+    )
 
     if (existingProductIndex !== -1) {
       setProductos((prevProductos) => {
-        const updatedProductos = [...prevProductos];
+        const updatedProductos = [...prevProductos]
         updatedProductos[existingProductIndex] = {
           ...updatedProductos[existingProductIndex],
           stock: nuevoProd.stock,
           precio: nuevoProd.precio,
-        };
-        return updatedProductos;
-      });
+        }
+        return updatedProductos
+      })
     } else {
       setProductos((prevProductos) => [
         ...prevProductos,
@@ -50,12 +50,12 @@ const CargaProd = () => {
           ...nuevoProd,
           id: idContador,
         },
-      ]);
-      setIdContador((prevCounter) => prevCounter + 1);
+      ])
+      setIdContador((prevCounter) => prevCounter + 1)
     }
 
-    resetNuevoProd();
-  };
+    resetNuevoProd()
+  }
 
     
 

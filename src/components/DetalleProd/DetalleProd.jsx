@@ -15,7 +15,7 @@ const DetalleProd = () => {
         } catch (error) {
             console.error(error)
         }
-    }, [id]);
+    }, [id])
 
     if (!producto) {
         return <p>Cargando...</p>
