@@ -5,7 +5,7 @@ const ItemListContainer = () => {
 
     return (
         <div>
-            <ObtenerProductos/>
+            <ObtenerProductos saludo="Listado de productos"/>
         </div>
     )
 }

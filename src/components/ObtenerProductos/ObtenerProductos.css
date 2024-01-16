@@ -1,3 +1,12 @@
 .productos {
-    margin-top: 70px;
+    margin-top: 80px;
+}
+
+.filtro {
+    position: relative;
+    top: 70px
+}
+
+.filtro a {
+    margin-left: 15px;
 }
