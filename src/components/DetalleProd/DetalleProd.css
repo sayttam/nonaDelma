@@ -1,8 +1,24 @@
 .filaContDet {
     position: relative;
-    left: 26%;
 }
 
 .filaContDet ul {
     list-style: none;
+}
+
+.botonAtras {
+    position: fixed;
+    background-color: white;
+    color: #0076fc;
+    border: 0.5px #0076fc solid;
+    left: 20px;
+    top: 120px;
+    border-radius: 10px;
+    padding: 7px;
+    transition: 500ms;
+}
+
+.botonAtras:hover {
+    color: white;
+    background-color: #0076fc;
 }

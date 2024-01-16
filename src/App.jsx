@@ -22,9 +22,6 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
-      {/* <div>{contador}</div> */}
-      {/* <button onClick={contador}>Contar</button> */}
-      {/* <button onClick={setCounter(0)}>Resetear</button> */}
     </>
   )
 }

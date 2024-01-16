@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { Container, Row, Col, Card, ListGroup, Badge } from 'react-bootstrap'
 import './DetalleProd.css'
 
@@ -22,7 +22,9 @@ const DetalleProd = () => {
     }
 
     return (
-        <Container style={{marginTop: '70px'}} className='contenedorDetalle'>
+
+        <Container style={{ marginTop: '70px' }} className='contenedorDetalle'>
+            <Link to={`../productos`} className='botonAtras'>Atras</Link>
             <h2>{producto.title}</h2>
 
             <Row className='filaContDet'>
@@ -40,7 +42,7 @@ const DetalleProd = () => {
                                     <ul>
                                         {producto.attributes.map((attr) => (
                                             <li key={attr.id}>
-                                                {attr.name}: <Badge variant="info">{attr.value_name}</Badge> 
+                                                {attr.name}: <Badge variant="info">{attr.value_name}</Badge>
                                             </li>
                                         ))}
                                     </ul>
@@ -57,15 +59,16 @@ const DetalleProd = () => {
                             <ListGroup>
                                 {producto.variations.map((variation) => (
                                     <ListGroup.Item key={variation.id}>
-                                        <strong>Precio:</strong> {variation.price} {producto.currency_id}
-                                        <br />
                                         {variation.attribute_combinations.map((combo) => (
                                             <span key={combo.id}>
-                                                <Badge variant="light">
-                                                    <strong>{combo.name}:</strong> {combo.value_name}
-                                                </Badge>{' '}
+                                                <strong>{combo.name}:</strong> {combo.value_name}
                                             </span>
                                         ))}
+                                        <br />
+                                        <Badge variant="light">
+                                            <strong>Precio:</strong> {variation.price} {producto.currency_id}
+                                        </Badge>
+                                        <br />
                                     </ListGroup.Item>
                                 ))}
                             </ListGroup>

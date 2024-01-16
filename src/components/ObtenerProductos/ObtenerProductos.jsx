@@ -1,4 +1,5 @@
 import ItemCount from '../ItemCount/ItemCount'
+import './ObtenerProductos.css'
 import { useState, useEffect } from "react"
 import { ListGroup, Card, Row, Col } from "react-bootstrap"
 import { Link } from 'react-router-dom'
@@ -15,11 +16,15 @@ const ObtenerProductos = () => {
       console.error(error)
     }
   }, [])
+
+  if (productos.length === 0) {
+    return <p>Cargando...</p>
+  }
   
 
   return (
     <>
-      <Row>
+      <Row className='productos'>
         {productos.map((prod) => (
           <Col key={prod.id} xs={12} sm={6} md={4} lg={3}>
             <Card style={{ marginBottom: "15px", width: "250px" }}>
