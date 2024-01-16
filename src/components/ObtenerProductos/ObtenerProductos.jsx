@@ -39,7 +39,7 @@ const ObtenerProductos = ({saludo}) => {
       : productos
 
   if (productos.length === 0) {
-    return <p>Cargando...</p>
+    return <p className='cargando'>Cargando...</p>
   }
 
 

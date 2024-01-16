@@ -18,7 +18,7 @@ const DetalleProd = () => {
     }, [id])
 
     if (!producto) {
-        return <p>Cargando...</p>
+        return <p className='cargando'>Cargando...</p>
     }
 
     return (
