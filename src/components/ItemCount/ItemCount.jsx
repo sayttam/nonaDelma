@@ -17,7 +17,7 @@ const ItemCount = ({stock, inicial, onAdd}) => {
 
     return (
         <div className="card">
-            <div style={{display: 'flex'}}>
+            <div style={{display: 'flex', position: 'relative', left: '40%'}}>
                 <button className="btn" onClick={decrementar}>-</button>
                 <h3>{cantidad}</h3>
                 <button className="btn" onClick={incrementar}>+</button>

@@ -1,13 +1,15 @@
 import cart from '/img/cart.png'
 import './CartWidget.css'
+import { useContext } from 'react'
+import { Contexto } from '../../App'
 
 const CartWidget = () => {
-    let contadorCarrito = 0
+    const { contextValue } = useContext(Contexto)
     return (
         <>
             <div>
                 <img src={cart} alt="Carrito" className="imgCart" />
-                <p className="contCart">{contadorCarrito}</p>
+                <p className="contCart">{contextValue}</p>
             </div>
         </>
     )

@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import ItemCount from '../ItemCount/ItemCount'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Container, Row, Col, Card, ListGroup, Badge } from 'react-bootstrap'
 import './DetalleProd.css'
+import { Contexto } from '../../App'
 
 const DetalleProd = () => {
     const { id } = useParams()
     const [producto, setProducto] = useState(null)
+    const { contextValue, setContextValue } = useContext(Contexto)
 
     useEffect(() => {
         try {
@@ -48,6 +51,7 @@ const DetalleProd = () => {
                                     </ul>
                                 </div>
                             )}
+                             <ItemCount inicial={1} stock={10} onAdd={(cantidad) => setContextValue(contextValue + cantidad) } />
                         </Card.Body>
                     </Card>
                 </Col>
