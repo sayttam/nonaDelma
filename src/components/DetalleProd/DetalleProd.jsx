@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom'
 import { Container, Row, Col, Card, ListGroup, Badge } from 'react-bootstrap'
 import './DetalleProd.css'
 import { Contexto } from '../../App'
+import { useCart } from '../../context/CartContext'
 
 const DetalleProd = () => {
     const { id } = useParams()
