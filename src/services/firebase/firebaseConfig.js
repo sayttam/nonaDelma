@@ -1,15 +1,19 @@
 import { initializeApp } from "firebase/app"
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore, setLogLevel } from 'firebase/firestore'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDyvo5kFAFJI7Q0HzZ1R0RJ_K5rj0BfmnY",
-    authDomain: "nonadelma-coder.firebaseapp.com",
-    projectId: "nonadelma-coder",
-    storageBucket: "nonadelma-coder.appspot.com",
-    messagingSenderId: "124490811025",
-    appId: "1:124490811025:web:9eb148e7950aad3e41a130"
+    apiKey: import.meta.env.VITE_apiKey,
+    authDomain: import.meta.env.VITE_authDomain,
+    projectId: import.meta.env.VITE_projectId,
+    storageBucket: import.meta.env.VITE_storageBucket,
+    messagingSenderId: import.meta.env.VITE_messagingSenderId,
+    appId: import.meta.env.VITE_appId
   }
 
   const app = initializeApp(firebaseConfig)
 
-  export const db = getFirestore(app)
+  setLogLevel('debug')
+
+  console.debug(firebaseConfig.apiKey, firebaseConfig.authDomain, firebaseConfig.projectId, firebaseConfig.storageBucket, firebaseConfig.messagingSenderId, firebaseConfig.appId)
+
+  export const db = getFirestore(app, {experimentalForceLongPolling: true})
