@@ -1,15 +1,17 @@
-import cart from '/img/cart.png'
+import cartImage from '/img/cart.png'
 import './CartWidget.css'
-import { useContext } from 'react'
-import { Contexto } from '../../App'
+import { useContext, useState } from 'react'
+import { useCart } from '../../context/CartContext'
 
 const CartWidget = () => {
-    const { contextValue } = useContext(Contexto)
+    const { getTotalQuantity, cart } = useCart()
+    const {cartTotalQuantity, setCartTotalQuantity} = useState(0)
+
     return (
         <>
             <div>
-                <img src={cart} alt="Carrito" className="imgCart" />
-                <p className="contCart">{contextValue}</p>
+                <img src={cartImage} alt="Carrito" className="imgCart" />
+                <p className="contCart">{getTotalQuantity}</p>
             </div>
         </>
     )
