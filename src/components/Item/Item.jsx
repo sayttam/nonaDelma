@@ -6,8 +6,8 @@ const Item = ({ id, thumbnail, price, title }) => {
     return (
         <>
 
-        <Col key={id} xs={12} sm={6} md={4} lg={3}>
-          <Card style={{ marginBottom: '15px', width: '250px' }}>
+        <Col key={id} xs={12} sm={6} md={4} lg={3} style={{marginLeft: '50px'}}>
+          <Card style={{ marginBottom: '15px', width: '250px', margin: '20px' }}>
             <Card.Img variant='top' src={thumbnail} />
             <Card.Body>
               <Card.Title>{title}</Card.Title>

@@ -15,3 +15,8 @@
     position: fixed;
      right: 10px 
 }
+
+.userName {
+    position: fixed;
+    right: 55px;
+}

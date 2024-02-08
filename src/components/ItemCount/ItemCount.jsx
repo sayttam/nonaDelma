@@ -29,14 +29,7 @@ const ItemCount = ({ stock, inicial = 1, onAdd }) => {
     if (productoAgregado) {
         return (
             <div className="card">
-                <div style={{ display: 'flex', position: 'relative', left: '40%' }}>
-                    <button className="btn" onClick={decrementar}>-</button>
-                    <h3>{cantidad}</h3>
-                    <button className="btn" onClick={incrementar}>+</button>
-                </div>
-                <div>
-                    <Link to='../cart'>Terminar compra</Link>
-                </div>
+                <Link to='../cart'>Terminar compra</Link>
             </div>
         )
     } else {

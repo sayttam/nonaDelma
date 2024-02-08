@@ -2,18 +2,22 @@ import { useState } from "react"
 import { collection, getDocs, where, query, documentId, writeBatch, addDoc } from "firebase/firestore"
 import { useCart } from "../../context/CartContext"
 import { db } from "../../services/firebase/firebaseConfig"
+import { Button, Container, Spinner, Alert, Table } from 'react-bootstrap'
 
-const Checkout = () => {
-    const [orderId, setOrderId] = useState(null)
+const Checkout = ({ user }) => {
+    const [orderDetails, setOrderDetails] = useState(null)
     const { cart, total, clearCart } = useCart()
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const createOrder = async () => {
+        setLoading(true)
         try {
             const objOrder = {
-                buyer: { 
-                    name: 'Matias Bustos Zanelli',
-                    email: 'joel.bustos@gmail.com',
-                    phone: '+543515297866'
+                buyer: {
+                    name: user.nombre + ' ' + user.apellido,
+                    email: user.email,
+                    phone: user.numeroTel
                 },
                 items: cart,
                 total 
@@ -23,7 +27,6 @@ const Checkout = () => {
             const outOfStock = []
     
             const ids = cart.map(prod => prod.id)
-            console.debug(ids)
             const productsCollection = query(collection(db, 'productos-nonadelma'), where(documentId(), 'in', ids))
     
             const querySnapshot = await getDocs(productsCollection)
@@ -31,16 +34,15 @@ const Checkout = () => {
             
             docs.forEach(doc => {
                 const fields = doc.data()
-                const stockDb = fields.available_quantity
+                const stockDb = fields.stock
     
                 const productsAddedToCart = cart.find(prod => prod.id === doc.id)
                 const prodQuantity = productsAddedToCart.cantidad
-                console.log(stockDb >= prodQuantity)
-                console.debug(stockDb + ' ' + prodQuantity)
+    
                 if(stockDb >= prodQuantity) {
-                    batch.update(doc.ref, { stock: stockDb - prodQuantity})
+                    batch.update(doc.ref, { stock: stockDb - prodQuantity })
                 } else {
-                    outOfStock.push({ id: doc.id, ...fields})
+                    outOfStock.push({ id: doc.id, ...fields })
                 }
             })
     
@@ -50,33 +52,65 @@ const Checkout = () => {
                 const orderCollection = collection(db, 'orders')
                 const { id } = await addDoc(orderCollection, objOrder)
                 
-                setOrderId(id)
-
+                setOrderDetails({ id, ...objOrder })
                 clearCart()
             } else {
-                console.debug('error: Hay productos que no tienen stock disponible')
+                setError('Hay productos que no tienen stock disponible')
             }
         } catch (error) {
             console.error('Hubo un error al crear la orden: ' + error)
+            setError('Hubo un error al crear la orden')
         } finally {
-            console.debug('OK')
+            setLoading(false)
         }
-        
-    }
-
-    if(!createOrder) {
-        return <h1>Se esta generando su orden, aguarde por favor...</h1>
-    }
-
-    if(orderId) {
-        return <h1>El id de su compra es: {orderId}</h1>
     }
 
     return (
-        <>
-            <h1>CHECKOUT</h1>
-            <button onClick={createOrder}>Generar orden</button>
-        </>
+        <Container className="mt-5">
+            <h1 className="mb-4">CHECKOUT</h1>
+            {loading ? (
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            ) : (
+                <>
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    {orderDetails ? (
+                        <>
+                            <h2>Detalles de la compra</h2>
+                            <p><strong>ID:</strong> {orderDetails.id}</p>
+                            <h3>Productos:</h3>
+                            <Table striped bordered hover>
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio unitario</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {orderDetails.items.map(item => (
+                                        <tr key={item.id}>
+                                            <td>{item.title}</td>
+                                            <td>{item.cantidad}</td>
+                                            <td>${item.price}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                            <p><strong>Total:</strong> ${orderDetails.total}</p>
+                            <p><strong>Comprador:</strong> {orderDetails.buyer.name}</p>
+                            <p><strong>Email:</strong> {orderDetails.buyer.email}</p>
+                            <p><strong>Teléfono:</strong> {orderDetails.buyer.phone}</p>
+                        </>
+                    ) : (
+                        <Button onClick={createOrder} variant="primary">
+                            Generar orden
+                        </Button>
+                    )}
+                </>
+            )}
+        </Container>
     )
 }
 

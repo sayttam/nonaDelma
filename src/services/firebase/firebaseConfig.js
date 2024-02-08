@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { getFirestore, setLogLevel } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -17,3 +18,4 @@ const firebaseConfig = {
 
 
   export const db = getFirestore(app)
+  export const auth = getAuth(app)

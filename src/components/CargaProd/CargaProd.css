@@ -22,3 +22,15 @@
     border: 1px lightgray solid;
 }
 
+.botonAtras {
+    position: fixed;
+    background-color: white;
+    color: #0076fc;
+    border: 0.5px #0076fc solid;
+    left: 20px;
+    top: 120px;
+    border-radius: 10px;
+    padding: 7px;
+    transition: 500ms;
+}
+

@@ -1,5 +1,6 @@
 import Item from "../Item/Item"
 import { Row } from 'react-bootstrap'
+import './ItemList.css'
 
 const ItemList = ({ products }) => {
     return(

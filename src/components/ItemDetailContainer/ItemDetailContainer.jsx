@@ -7,7 +7,6 @@ import { getDoc, doc } from 'firebase/firestore'
 const ItemDetailContainer = () => {
     const [producto, setProducto] = useState(null)
     const { id } = useParams()
-    console.debug(id)
 
     useEffect(() => {
         if (producto) document.title = producto.name ?? 'Nona Delma'

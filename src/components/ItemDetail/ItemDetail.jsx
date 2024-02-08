@@ -4,7 +4,7 @@ import { Container, Row, Col, Card, ListGroup, Badge } from 'react-bootstrap'
 import './ItemDetail.css'
 import { useCart } from '../../context/CartContext'
 
-const ItemDetail = ({ id, title, thumbnail, price, available_quantity, cantidad }) => {
+const ItemDetail = ({ id, title, thumbnail, price, stock, cantidad }) => {
     const { cart, addItem, getProductQuantity } = useCart()
     const {productId} = useParams()
 
@@ -32,9 +32,9 @@ const ItemDetail = ({ id, title, thumbnail, price, available_quantity, cantidad 
                 <Card>
                     <Card.Body>
                         <h3>{title}</h3>
-                        <img src={thumbnail} alt="" />
+                        <img src={thumbnail} alt="" style={{height: '200px'}} />
                         <Card.Title>Precio: {price}</Card.Title>
-                        <ItemCount inicial={1} stock={10} onAdd={handleOnAdd} id={productId} nombre={title} precio={price} cantidad={cantidad} />
+                        <ItemCount inicial={1} stock={stock} onAdd={handleOnAdd} id={productId} nombre={title} precio={price} cantidad={cantidad} disabled={!stock} />
                     </Card.Body>
                 </Card>
             </Col>
@@ -42,7 +42,7 @@ const ItemDetail = ({ id, title, thumbnail, price, available_quantity, cantidad 
             <Col xs={12} md={6}>
                 <h5>Información adicional:</h5>
                 <p><strong>ID:</strong> {id}</p>
-                <p><strong>Stock:</strong> {available_quantity}</p>
+                <p><strong>Stock:</strong> {stock}</p>
             </Col>
         </Row>
     </Container>
