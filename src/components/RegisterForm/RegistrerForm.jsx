@@ -90,11 +90,11 @@ const RegisterForm = () => {
                     Registrarse
                 </Button>
 
-                <Toast show={showToast} onClose={() => setShowToast(false)} style={{ position: 'fixed', top: '60px', right: '20px' }}>
+                <Toast show={showToast} onClose={() => setShowToast(false)} style={{ position: 'fixed', top: '80px', right: '20px' }}>
                     <Toast.Header>
-                        <strong className="me-auto">Cuenta creada</strong>
+                        <strong className="me-auto">Cuenta creada!</strong>
                     </Toast.Header>
-                    <Toast.Body>¡Cuenta creada! Ahora puedes loguearte.</Toast.Body>
+                    <Toast.Body>Ahora puedes loguearte.</Toast.Body>
                 </Toast>
 
                 {error && <p>{error}</p>}
