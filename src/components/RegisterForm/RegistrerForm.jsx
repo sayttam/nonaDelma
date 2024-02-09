@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState  } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { db } from '../../services/firebase/firebaseConfig'
 import { Form, Button, Container } from 'react-bootstrap'
 import { addDoc, collection } from 'firebase/firestore'
@@ -10,6 +11,7 @@ const RegisterForm = () => {
   const [apellido, setApellido] = useState('')
   const [numeroTel, setNumeroTel] = useState('')
   const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   const limpiarFormulario = () => {
     setNombre('')
@@ -33,6 +35,7 @@ const RegisterForm = () => {
     try {
         const addUser = await addDoc(collection(db, 'users'), userData)
       limpiarFormulario()
+      navigate('../login')
     } catch (error) {
       setError(error.message)
     }

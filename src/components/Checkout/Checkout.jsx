@@ -20,46 +20,50 @@ const Checkout = ({ user }) => {
                     phone: user.numeroTel
                 },
                 items: cart,
-                total 
+                total
             }
-    
+
             const batch = writeBatch(db)
             const outOfStock = []
-    
+
             const ids = cart.map(prod => prod.id)
             const productsCollection = query(collection(db, 'productos-nonadelma'), where(documentId(), 'in', ids))
-    
+
             const querySnapshot = await getDocs(productsCollection)
             const { docs } = querySnapshot
-            
+
             docs.forEach(doc => {
                 const fields = doc.data()
                 const stockDb = fields.stock
-    
+
                 const productsAddedToCart = cart.find(prod => prod.id === doc.id)
                 const prodQuantity = productsAddedToCart.cantidad
-    
-                if(stockDb >= prodQuantity) {
+
+                if (stockDb >= prodQuantity) {
                     batch.update(doc.ref, { stock: stockDb - prodQuantity })
                 } else {
                     outOfStock.push({ id: doc.id, ...fields })
                 }
             })
-    
-            if(outOfStock.length === 0) {
+
+            if (outOfStock.length === 0) {
                 batch.commit()
-    
+
                 const orderCollection = collection(db, 'orders')
                 const { id } = await addDoc(orderCollection, objOrder)
-                
+
                 setOrderDetails({ id, ...objOrder })
                 clearCart()
             } else {
                 setError('Hay productos que no tienen stock disponible')
             }
         } catch (error) {
-            console.error('Hubo un error al crear la orden: ' + error)
-            setError('Hubo un error al crear la orden')
+            if (!user) {
+                setError('Para hacer el checkout debes estar logueado')
+            } else {
+                console.error('Hubo un error al crear la orden: ' + error)
+                setError('Hubo un error al crear la orden')
+            }
         } finally {
             setLoading(false)
         }
