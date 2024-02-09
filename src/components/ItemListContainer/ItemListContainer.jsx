@@ -48,6 +48,8 @@ const ItemListContainer = ({ saludo }) => {
         ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA95393')
         : productosPorPrecio
 
+  document.title = 'Nona Delma - Productos'
+
   if (productos.length === 0) {
     return <p className='cargando'>Cargando...</p>
   }

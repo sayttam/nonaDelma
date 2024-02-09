@@ -9,7 +9,7 @@ const ItemDetailContainer = () => {
     const { id } = useParams()
 
     useEffect(() => {
-        if (producto) document.title = producto.name ?? 'Nona Delma'
+        if (producto) document.title = producto.title ?? 'Nona Delma'
         else document.title = 'Nona Delma'
     }, [producto])
 
