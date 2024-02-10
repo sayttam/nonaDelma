@@ -12,7 +12,7 @@ const Item = ({ id, thumbnail, price, title }) => {
             <Card.Body>
               <Card.Title>{title}</Card.Title>
               <Card.Text>
-                <Link to={`/producto/${id}`}>Detalle</Link>
+                <Link to={`/detalle/${id}`}>Detalle</Link>
               </Card.Text>
             </Card.Body>
             <ListGroup className='list-group-flush'>

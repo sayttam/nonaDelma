@@ -36,11 +36,12 @@ function App() {
           <Route path='/productos/:precio' element={<ItemListContainer/>}/>
           <Route path='/productos/:categoria' element={<ItemListContainer/>}/>
           <Route path='/cargaProductos' element={<CargaProd />} />
-          <Route path="/producto/:id" element={<ItemDetailContainer />} />
+          <Route path="/detalle/:id" element={<ItemDetailContainer />} />
           <Route path='/cart' element={<CartView />} />
           <Route path='/checkout' element={<Checkout user={ user }/>} />
           <Route path='/login' element={<LoginForm onLogin={handleLogin} />} />
           <Route path='/register' element={<RegisterForm />} />
+          <Route path='*' element={<h1>ERROR 404 Not found</h1>}/>
         </Routes>
         <Footer />
         </CartProvider>
