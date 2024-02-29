@@ -96,6 +96,8 @@ const CargaProd = () => {
               <option value="">Seleccionar categoría</option>
               <option value="MLA413596">Telas</option>
               <option value="MLA95393">Lanas</option>
+              <option value="MLA9539354">Mercería</option>
+              <option value="MLA41359">Blanquería</option>
             </Form.Select>
           </Form.Group>
         </Row>

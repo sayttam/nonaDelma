@@ -54,7 +54,7 @@ const LoginForm = ({ onLogin }) => {
         <Button variant="primary" type="submit">
           Iniciar sesión
         </Button>
-
+        <br></br>
         <Link to='../register'>Registrarse</Link>
 
         {error && <p>{error}</p>}

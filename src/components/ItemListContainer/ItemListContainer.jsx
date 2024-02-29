@@ -45,8 +45,12 @@ const ItemListContainer = ({ saludo }) => {
     categoria === 'telas'
       ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA413596')
       : categoria === 'lanas'
-        ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA95393')
-        : productosPorPrecio
+      ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA95393')
+      : categoria === 'merceria'
+      ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA9539354')
+      : categoria === 'blanqueria'
+      ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA41359')
+      : productosPorPrecio
 
   document.title = 'Nona Delma - Productos'
 
@@ -64,6 +68,8 @@ const ItemListContainer = ({ saludo }) => {
         <Link to='/productos' onClick={() => aplicarFiltroCategoria('')} className='filtroCategoria'>Todos</Link>
         <Link to='/productos/telas' onClick={() => aplicarFiltroCategoria('telas')} className='filtroCategoria'>Telas</Link>
         <Link to='/productos/lanas' onClick={() => aplicarFiltroCategoria('lanas')} className='filtroCategoria'>Lanas</Link>
+        <Link to='/productos/merceria' onClick={() => aplicarFiltroCategoria('merceria')} className='filtroCategoria'>Merceria</Link>
+        <Link to='/productos/blanqueria' onClick={() => aplicarFiltroCategoria('blanqueria')} className='filtroCategoria'>Blanqueria</Link>
         <br />
         <Link to='/productos/menor' className='ordenarPrecio'>Menor precio</Link>
         <Link to='/productos/mayor' className='ordenarPrecio'>Mayor precio</Link>

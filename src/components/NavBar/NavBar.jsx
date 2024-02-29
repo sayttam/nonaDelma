@@ -2,14 +2,17 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './NavBar.css'
 import logo from '/img/logo-nobg.png'
 import CartWidget from '../CartWidget/CartWidget'
-import { Navbar, Nav, Button } from 'react-bootstrap'
+import { Navbar, Nav, Button, Dropdown  } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 const NavBar = ({ user }) => {
+  const handleLogout = () => {
+    console.log('Logout')
+  }
   return (
     <Navbar bg="light" expand="xl" className="navBar">
       <Navbar.Brand href="#" style={{ position: 'relative', left: '10px' }}>
-        <img src={logo} alt="Nona Delma" style={{ height: '65px' }}/>
+        <img src={logo} alt="Nona Delma" style={{ height: '65px' }} />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
@@ -20,7 +23,15 @@ const NavBar = ({ user }) => {
           <Nav.Link as={Link} to="/acerca-de">Acerca de</Nav.Link>
           <CartWidget />
           {user ? (
-            <Nav.Link className='userName'>{user.nombre}</Nav.Link>
+            <Dropdown className='userName'>
+              <Dropdown.Toggle variant="light" id="dropdown-basic">
+                {user.nombre}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu className='logout'>
+                <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           ) : (
             <Link to='./login'>
               <Button variant="outline-primary">Iniciar Sesión</Button>

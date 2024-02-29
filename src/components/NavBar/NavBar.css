@@ -20,3 +20,10 @@
     position: fixed;
     right: 55px;
 }
+
+.logout {
+    width: 100px !important;
+    position: fixed !important;
+    top: 60px !important;
+    left: 90% !important;
+}
