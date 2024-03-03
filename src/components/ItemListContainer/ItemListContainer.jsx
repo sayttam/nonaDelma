@@ -8,9 +8,10 @@ import ItemList from '../ItemList/ItemList'
 
 const ItemListContainer = ({ saludo }) => {
   const [productos, setProductos] = useState([])
-  const { precio, categoria: categoriaParam } = useParams()
+  const { precio, categoria: categoriaParam, search } = useParams()
   const [categoria, setCategoria] = useState('')
   const { categoryId, productId } = useParams()
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     const productsCollection = categoryId
@@ -32,6 +33,10 @@ const ItemListContainer = ({ saludo }) => {
     setCategoria(categoria)
   }
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  }
+
   const filtroPrecio = productos.slice()
 
   const productosPorPrecio =
@@ -45,12 +50,20 @@ const ItemListContainer = ({ saludo }) => {
     categoria === 'telas'
       ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA413596')
       : categoria === 'lanas'
-      ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA95393')
-      : categoria === 'merceria'
-      ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA9539354')
-      : categoria === 'blanqueria'
-      ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA41359')
-      : productosPorPrecio
+        ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA95393')
+        : categoria === 'merceria'
+          ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA9539354')
+          : categoria === 'blanqueria'
+            ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA41359')
+            : productosPorPrecio
+
+  const productosFiltradosBusqueda = productosFiltradosCategoria.filter((prod) => {
+    if (searchTerm && searchTerm.trim() !== '') {
+      const searchTermLowerCase = searchTerm.toLowerCase()
+      return prod.title.toLowerCase().includes(searchTermLowerCase)
+    }
+    return true
+  })
 
   document.title = 'Nona Delma - Productos'
 
@@ -73,8 +86,11 @@ const ItemListContainer = ({ saludo }) => {
         <br />
         <Link to='/productos/menor' className='ordenarPrecio'>Menor precio</Link>
         <Link to='/productos/mayor' className='ordenarPrecio'>Mayor precio</Link>
+        <div className='buscar'>
+          <input type="text" placeholder="Buscar productos..." value={searchTerm} onChange={handleSearchChange} />
+        </div>
       </div>
-      <ItemList products={productosFiltradosCategoria} />
+      <ItemList products={productosFiltradosBusqueda} />
     </>
   )
 }
