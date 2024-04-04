@@ -14,9 +14,10 @@ import './App.css'
 import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer'
 import RegisterForm from './components/RegisterForm/RegisterForm'
 
-export const Contexto = createContext()
+export const CategoriasContext = createContext()
 
 function App() {
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('')
   const [user, setUser] = useState(null)
 
   const handleLogin = (userData) => {
@@ -26,13 +27,14 @@ function App() {
   return (
     <>
       <BrowserRouter basename='/'>
+      <CategoriasContext.Provider value={{ categoriaSeleccionada, setCategoriaSeleccionada }}>
       <CartProvider>
         <NavBar user={user}/>
         <Routes>
           <Route path='/' element={<Inicio user={user}/>} />
           <Route path='/productos' element={<ItemListContainer/>}/>
-          <Route path='/productos/:precio' element={<ItemListContainer/>}/>
-          <Route path='/productos/:categoryId' element={<ItemListContainer/>}/>
+          <Route path='/productos/categorias/:precio' element={<ItemListContainer/>}/>
+          <Route path='/productos/categorias/:categoria' element={<ItemListContainer/>}/>
           <Route path='/productos/:search' element={<ItemListContainer/>}/>
           <Route path='/cargaProductos' element={<CargaProd />} />
           <Route path="/detalle/:id" element={<ItemDetailContainer />} />
@@ -44,6 +46,7 @@ function App() {
         </Routes>
         <Footer />
         </CartProvider>
+        </CategoriasContext.Provider>
       </BrowserRouter>
     </>
   )

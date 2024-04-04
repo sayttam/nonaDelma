@@ -1,45 +1,57 @@
 import './ItemListContainer.css'
-import '../ItemList/ItemList'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { db } from '../../services/firebase/firebaseConfig'
 import { collection, getDocs, where, query } from 'firebase/firestore'
+import { CategoriasContext } from '../../App'
 import ItemList from '../ItemList/ItemList'
+import { Button } from 'react-bootstrap'
+
 
 const ItemListContainer = ({ saludo }) => {
   const [productos, setProductos] = useState([])
-  const { precio, categoria: categoriaParam, search } = useParams()
-  const [categoria, setCategoria] = useState('')
-  const { categoryId, productId } = useParams()
+  const { search, categoria } = useParams()
+  const [subCategoria, setSubCategoria] = useState('')
+  const { categoriaSeleccionada } = useContext(CategoriasContext)
   const [searchTerm, setSearchTerm] = useState('')
+  const [precio, setPrecio] = useState('')
+  const categoriaFiltro = categoriaSeleccionada || categoria
 
   useEffect(() => {
-    const productsCollection = categoryId
-      ? query(collection(db, 'productos-nonadelma'), where('category_id', '==', categoryId))
-      : collection(db, 'productos-nonadelma')
-
-    getDocs(productsCollection)
-      .then(querySnapshot => {
+    const fetchProductos = async () => {
+      try {
+        let productsCollection = collection(db, 'productos-nonadelma')
+        if (categoriaSeleccionada || categoria) {
+          productsCollection = query(productsCollection, where('category_id', '==', categoriaFiltro))
+        } else {
+          productsCollection = query(productsCollection)
+        }
+        const querySnapshot = await getDocs(productsCollection)
         const productsAdapted = querySnapshot.docs.map(doc => {
           const fields = doc.data()
           return { id: doc.id, ...fields }
         })
 
-        setProductos(productsAdapted)
-      })
-  }, [precio, categoriaParam, categoryId])
+        setProductos(productsAdapted);
+      } catch (error) {
+        console.error('Error fetching products:', error)
+      }
+    }
+
+    fetchProductos()
+  }, [categoriaSeleccionada])
 
   const aplicarFiltroCategoria = (categoria) => {
-    setCategoria(categoria)
+    setSubCategoria(categoria)
   }
 
   const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
+    setSearchTerm(event.target.value)
   }
 
   const filtroPrecio = productos.slice()
 
-  const productosPorPrecio =
+  const productosPorPrecio = 
     precio === 'menor'
       ? filtroPrecio.sort((a, b) => a.price - b.price)
       : precio === 'mayor'
@@ -47,14 +59,14 @@ const ItemListContainer = ({ saludo }) => {
         : productos
 
   const productosFiltradosCategoria =
-    categoria === 'telas'
-      ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA413596')
-      : categoria === 'lanas'
-        ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA95393')
-        : categoria === 'merceria'
-          ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA9539354')
-          : categoria === 'blanqueria'
-            ? productosPorPrecio.filter((prod) => prod.category_id === 'MLA41359')
+    subCategoria === 'telas'
+      ? productosPorPrecio.filter((prod) => prod.category_id === 'telas')
+      : subCategoria === 'lanas'
+        ? productosPorPrecio.filter((prod) => prod.category_id === 'lanas')
+        : subCategoria === 'merceria'
+          ? productosPorPrecio.filter((prod) => prod.category_id === 'merceria')
+          : subCategoria === 'blanqueria'
+            ? productosPorPrecio.filter((prod) => prod.category_id === 'blanqueria')
             : productosPorPrecio
 
   const productosFiltradosBusqueda = productosFiltradosCategoria.filter((prod) => {
@@ -78,14 +90,14 @@ const ItemListContainer = ({ saludo }) => {
       </div>
       <div className='filtro'>
         <h2>{saludo}</h2>
-        <Link to='/productos' onClick={() => aplicarFiltroCategoria('')} className='filtroCategoria'>Todos</Link>
-        <Link to='/productos/telas' onClick={() => aplicarFiltroCategoria('telas')} className='filtroCategoria'>Telas</Link>
-        <Link to='/productos/lanas' onClick={() => aplicarFiltroCategoria('lanas')} className='filtroCategoria'>Lanas</Link>
-        <Link to='/productos/merceria' onClick={() => aplicarFiltroCategoria('merceria')} className='filtroCategoria'>Merceria</Link>
-        <Link to='/productos/blanqueria' onClick={() => aplicarFiltroCategoria('blanqueria')} className='filtroCategoria'>Blanqueria</Link>
+       {/*  <Link to='/productos' onClick={() => aplicarFiltroCategoria('')} className='filtroCategoria'>Todos</Link>
+        <Link to='/productos/categorias/telas' onClick={() => aplicarFiltroCategoria('telas')} className='filtroCategoria'>Telas</Link>
+        <Link to='/productos/categorias/lanas' onClick={() => aplicarFiltroCategoria('lanas')} className='filtroCategoria'>Lanas</Link>
+        <Link to='/productos/categorias/merceria' onClick={() => aplicarFiltroCategoria('merceria')} className='filtroCategoria'>Merceria</Link>
+        <Link to='/productos/categorias/blanqueria' onClick={() => aplicarFiltroCategoria('blanqueria')} className='filtroCategoria'>Blanqueria</Link> */}
         <br />
-        <Link to='/productos/menor' className='ordenarPrecio'>Menor precio</Link>
-        <Link to='/productos/mayor' className='ordenarPrecio'>Mayor precio</Link>
+        <Button className='ordenarPrecio' onClick={() => setPrecio('menor')}>Menor precio</Button>
+        <Button className='ordenarPrecio' onClick={() => setPrecio('mayor')}>Mayor precio</Button>
         <div className='buscar'>
           <input type="text" placeholder="Buscar productos..." value={searchTerm} onChange={handleSearchChange} />
         </div>
